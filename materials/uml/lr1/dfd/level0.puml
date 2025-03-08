@@ -1,0 +1,11 @@
+@startuml
+skinparam defaultTextAlignment center
+
+actor "Пользователь" as User
+rectangle "Система" {
+    process "Получить статистику магазина" as Process
+}
+
+User -> Process : Запрос на получение
+Process --> User : Статистика
+@enduml

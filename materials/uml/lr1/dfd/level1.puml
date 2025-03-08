@@ -1,0 +1,21 @@
+@startuml
+
+actor "Пользователь" as User
+rectangle "Система" {
+    process "Обработка запроса" as ProcessPrepare
+    process "Сбор статистики" as ProcessCollect
+    process "Формирование ответа" as ProcessResult
+    database "Покупки" as PurchasesDB
+    database "Покупатели" as CustomersDB
+    database "Товары" as ProductsDB
+}
+
+User -> ProcessPrepare : Запрос
+ProcessPrepare -> ProcessCollect : Запрос на сбор статистики
+ProcessCollect -> ProcessResult : Статистика
+ProcessResult --> User : Ответ
+
+PurchasesDB --> ProcessCollect
+CustomersDB --> ProcessCollect
+ProductsDB --> ProcessCollect
+@enduml
