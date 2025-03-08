@@ -1,0 +1,44 @@
+@startuml
+' Сущности (таблицы)
+entity "category" as Category {
+  *code : INT
+  --
+  name : VARCHAR(255)
+}
+
+entity "customer" as Customer {
+  *id : INT
+  --
+  name : VARCHAR(255)
+}
+
+entity "product" as Product {
+  *id : INT
+  --
+  name : VARCHAR(255)
+  price : DOUBLE
+  category_code : INT <<FK>>
+}
+
+entity "purchase" as Purchase {
+  *id : INT
+  --
+  date : DATETIME
+  price : DOUBLE
+  customer_id : INT <<FK>>
+}
+
+entity "purchase_items" as PurchaseItems {
+  * product_id : INT
+  * purchase_id : INT
+  amount : INT
+  inorder_price : DOUBLE
+}
+
+' Связи между сущностями
+Category ||--o{ Product : "Содержит"
+Customer ||--o{ Purchase : "Создает"
+Product ||--o{ PurchaseItems : "Входит в"
+Purchase ||--o{ PurchaseItems : "Содержит"
+
+@enduml
