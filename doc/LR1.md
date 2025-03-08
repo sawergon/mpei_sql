@@ -1,8 +1,8 @@
-<center>
+<div style="text-align: center">
 <h2>Отчет по лабораторной работе №1</h2>
 <h2>По предмету: «Базы данных и информационные системы»</h2>
 <h3>Вариант 12</h3>
-</center>
+</div>
 
 <p style="text-align: right;margin-top: 500px">
 Студ. Сесюкалов А.А. А-14-21.<br>
