@@ -45,4 +45,3 @@ create table purchase_items
     constraint purchase_items_purchase_id_fk
         foreign key (purchase_id) references purchase (id) on delete cascade
 );
-
