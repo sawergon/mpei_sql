@@ -11,3 +11,5 @@ drop function if exists get_customer_purchase_total;
 drop procedure if exists make_purchase;
 drop trigger if exists prevent_category_deletion;
 drop trigger if exists set_product_price_on_cart_insert;
+
+drop view if exists recent_high_value_purchases;

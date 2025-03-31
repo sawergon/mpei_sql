@@ -45,3 +45,18 @@ create table purchase_items
     constraint purchase_items_purchase_id_fk
         foreign key (purchase_id) references purchase (id) on delete cascade
 );
+
+CREATE VIEW recent_high_value_purchases AS
+SELECT
+    c.name AS customer_name,
+    p.date AS purchase_date,
+    p.price AS total_amount
+FROM
+    purchase p
+        JOIN
+    customer c ON p.customer_id = c.id
+WHERE
+    p.price > 1000
+ORDER BY
+    p.date DESC
+LIMIT 10;
