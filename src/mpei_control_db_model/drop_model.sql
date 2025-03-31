@@ -13,3 +13,4 @@ drop trigger if exists prevent_category_deletion;
 drop trigger if exists set_product_price_on_cart_insert;
 
 drop view if exists recent_high_value_purchases;
+drop procedure if exists calculate_category_totals_for_customer;
