@@ -1,0 +1,13 @@
+1.3. Неповторяемое чтение (Non-Repeatable Read)
+
+T1
+BEGIN;
+SELECT price FROM product WHERE id=3;
+SELECT price FROM product WHERE id=3;
+COMMIT;
+
+T2
+BEGIN;
+UPDATE product SET price = 350 WHERE id=3;
+COMMIT;
+Вывод: повторный SELECT под LOCK IN SHARE MODE вернёт то же значение — неповторяемого чтения нет.

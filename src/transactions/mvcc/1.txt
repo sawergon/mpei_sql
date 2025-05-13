@@ -1,0 +1,16 @@
+1.1. Потерянное обновление (Lost Update)
+T1
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+BEGIN;
+select price from product where id = 1;
+update product set price = price + 10 where id = 1;
+commit;
+
+T2
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+BEGIN;
+SELECT price FROM product WHERE id=1;
+UPDATE product SET price = price + 20 WHERE id=1;
+commit;
+
+Вывод: потерянное обновление НЕ возникает — T2 ждёт освобождения X-блокировки T1 и потом добавляет своё приращение.

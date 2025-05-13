@@ -1,0 +1,12 @@
+1.2. Грязное чтение (Dirty Read)
+
+T1
+BEGIN;
+UPDATE product SET price = 500 WHERE id=2;
+ROLLBACK;
+
+T2
+begin;
+SELECT price FROM product WHERE id=2;
+COMMIT;
+Вывод: при LOCK IN SHARE MODE грязное чтение также блокируется — T2 увидит только «чистое» состояние.

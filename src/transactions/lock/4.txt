@@ -1,0 +1,14 @@
+1.4. Фантомы (Phantom Read)
+
+T1
+BEGIN;
+SELECT COUNT(*) FROM product WHERE price<100;
+SELECT COUNT(*) FROM product WHERE price<100;
+COMMIT;
+
+T2
+BEGIN;
+INSERT INTO product (name, price) VALUES ('X', 50);
+COMMIT;
+
+Вывод: за счёт диапазонных (next-key) блокировок в REPEATABLE READ + LOCK IN SHARE MODE фантомы тоже не появляются.
