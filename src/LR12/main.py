@@ -212,10 +212,10 @@ async def get_purchase_items():
     return items
 
 
-@app.get("/api/purchase_items/{id}", response_model=PurchaseItem)
-async def get_purchase_item(id: int):
+@app.get("/api/purchase_items/{pur_id}/{pr_id}", response_model=PurchaseItem)
+async def get_purchase_item(pur_id: int, pr_id: int):
     db = get_database()
-    item = db.purchase_items.find_one({"id": id})
+    item = db.purchase_items.find_one({"purchase_id": pur_id, "product_id": pr_id})
     if not item:
         raise HTTPException(status_code=404, detail="Purchase item not found")
     return item
@@ -227,27 +227,24 @@ async def create_purchase_item(item: PurchaseItem):
     db.purchase_items.insert_one(item.dict())
     return item
 
-
-@app.put("/api/purchase_items/{id}", response_model=PurchaseItem)
-async def update_purchase_item(id: int, item: PurchaseItem):
+@app.put("/api/purchase_items/{pur_id}/{pr_id}", response_model=PurchaseItem)
+async def update_purchase_item(pur_id: int, pr_id: int, item_data: PurchaseItem):
     db = get_database()
+    item_filter = {"purchase_id": pur_id, "product_id": pr_id}
     result = db.purchase_items.update_one(
-        {"id": id},
-        {"$set": item.dict()}
+        item_filter,
+        {"$set": item_data.dict(exclude_unset=True)}
     )
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="Purchase item not found")
-    return item
-
-
-@app.delete("/api/purchase_items/{id}")
-async def delete_purchase_item(id: int):
+    return db.purchase_items.find_one(item_filter)
+@app.delete("/api/purchase_items/{pur_id}/{pr_id}")
+async def delete_purchase_item(pur_id: int, pr_id: int):
     db = get_database()
-    result = db.purchase_items.delete_one({"id": id})
+    result = db.purchase_items.delete_one({"purchase_id": pur_id, "product_id": pr_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Purchase item not found")
     return {"message": "Purchase item deleted successfully"}
-
 
 # Эндпоинты для MongoDB запросов
 @app.get("/api/queries/query1")
