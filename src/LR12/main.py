@@ -164,6 +164,8 @@ async def delete_product(id: int):
 async def get_purchases():
     db = get_database()
     purchases = db.purchases.find().to_list(length=100)
+    for purchase in purchases:
+        purchase['date'] = purchase['date'].strftime('%Y-%m-%d')
     return purchases
 
 
@@ -173,6 +175,7 @@ async def get_purchase(id: int):
     purchase = db.purchases.find_one({"id": id})
     if not purchase:
         raise HTTPException(status_code=404, detail="Purchase not found")
+    purchase['date'] = purchase['date'].strftime('%Y-%m-%d')
     return purchase
 
 
